@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxHeight(0.95f)
                         ) {
 
+                            
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize(),
