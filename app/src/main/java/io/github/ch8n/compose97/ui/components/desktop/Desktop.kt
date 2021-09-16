@@ -1,6 +1,5 @@
 package io.github.ch8n.compose97.ui.components.desktop
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -10,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.ch8n.compose97.R
-import io.github.ch8n.compose97.ui.theme.Teal
+
 
 private val desktopItems = listOf(
     DesktopItemState(R.drawable.my_computer_32x32, "My Computer"),
@@ -21,20 +20,19 @@ private val desktopItems = listOf(
 )
 
 @Composable
-fun Desktop(modifier: Modifier){
+fun Desktop(){
     Box(
-        modifier = modifier.background(Teal)
+        modifier = Modifier
     ) {
         Column(
             modifier = Modifier.wrapContentSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             desktopItems.forEachIndexed { index, item ->
                 val itemState = remember { mutableStateOf(item) }
                 DesktopItem(
                     state = itemState,
                     modifier = Modifier
-                        .wrapContentSize()
                         .padding(16.dp),
                     onItemClick = {
                         // todo stuff...
@@ -45,13 +43,8 @@ fun Desktop(modifier: Modifier){
     }
 }
 
-
 @Preview
 @Composable
-fun previewDesktop(){
-    Desktop(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.95f)
-    )
+fun DesktopPreview(){
+    Desktop()
 }

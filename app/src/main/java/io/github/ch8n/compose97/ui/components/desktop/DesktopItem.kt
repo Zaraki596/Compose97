@@ -15,15 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.ch8n.compose97.R
-import io.github.ch8n.compose97.ui.components.startbar.StartMenuItem
-import io.github.ch8n.compose97.ui.components.startbar.StartMenuItemState
-
+import io.github.ch8n.compose97.ui.theme.Compose97Theme
 
 data class DesktopItemState(
     val iconId: Int,
     val name: String
 )
-
 
 @Composable
 fun DesktopItem(
@@ -51,20 +48,22 @@ fun DesktopItem(
     }
 }
 
+
 @Preview
 @Composable
 fun DesktopItemPreview() {
-    val state = DesktopItemState(
-        iconId = R.drawable.my_computer_32x32,
-        name = "My Computer",
-    )
-    DesktopItem(
-        state = remember { mutableStateOf(state) },
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(16.dp),
-        onItemClick = {
+    Compose97Theme {
+        val state = DesktopItemState(
+            iconId = R.drawable.my_computer_32x32,
+            name = "My Computer",
+        )
+        DesktopItem(
+            state = remember { mutableStateOf(state) },
+            modifier = Modifier
+                .padding(16.dp),
+            onItemClick = {
 
-        }
-    )
+            }
+        )
+    }
 }
