@@ -14,13 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.ch8n.compose97.R
 import io.github.ch8n.compose97.ui.theme.Black
 import io.github.ch8n.compose97.ui.theme.Gray
 import io.github.ch8n.compose97.ui.theme.Silver
+import io.github.ch8n.compose97.R
 
 @Composable
-fun TaskBar(modifier: Modifier) {
+fun TaskBar(modifier: Modifier){
     Row(
         modifier = modifier
             .border(width = 1.dp, color = Gray)
@@ -57,7 +57,7 @@ fun TaskBar(modifier: Modifier) {
 
 @Preview
 @Composable
-fun TaskBarPreview() {
+fun TaskBarPreview(){
     TaskBar(
         modifier = Modifier
             .fillMaxWidth()
