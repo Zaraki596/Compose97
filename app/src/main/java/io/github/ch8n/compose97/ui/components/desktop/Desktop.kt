@@ -9,35 +9,64 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.ch8n.compose97.R
-
-
-private val desktopItems = listOf(
-    DesktopItemState(R.drawable.my_computer_32x32, "My Computer"),
-    DesktopItemState(R.drawable.recycle_bin_32x32, "Recycle Bin"),
-    DesktopItemState(R.drawable.my_documents_folder_32x32, "My Documents"),
-    DesktopItemState(R.drawable.internet_explorer_32x32, "Internet\nExplorer"),
-    DesktopItemState(R.drawable.notepad_32x32, "Notepad"),
-)
+import io.github.ch8n.compose97.ui.components.windowscaffold.StatusBarProps
+import io.github.ch8n.compose97.ui.components.windowscaffold.WindowAddressProps
+import io.github.ch8n.compose97.ui.components.windowscaffold.WindowProps
+import io.github.ch8n.compose97.ui.components.windowscaffold.WindowScaffold
 
 @Composable
-fun Desktop(){
-    Box(
-        modifier = Modifier
-    ) {
+fun Desktop(
+    modifier: Modifier,
+    desktopItemItems: List<DesktopItemProps>
+) {
+    val (isWindowOpen, setWindowOpen) = remember { mutableStateOf(false) }
+    val (currentWindow, setCurrentWindow) = remember { mutableStateOf(WindowProps.NoWindow) }
+
+    Box(modifier = modifier) {
         Column(
-            modifier = Modifier.wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            desktopItems.forEachIndexed { index, item ->
-                val itemState = remember { mutableStateOf(item) }
+            desktopItemItems.forEach { desktopItem ->
+                Spacer(modifier = Modifier.size(12.dp))
                 DesktopItem(
-                    state = itemState,
-                    modifier = Modifier
-                        .padding(16.dp),
-                    onItemClick = {
-                        // todo stuff...
+                    itemProps = desktopItem,
+                    onItemClicked = {
+                        setWindowOpen(true)
+                        setCurrentWindow(
+                            WindowProps.NoWindow.copy(
+                                statusBar = StatusBarProps(
+                                    title = desktopItem.itemName,
+                                    mainIcon = desktopItem.iconResId
+                                ),
+                                addressBar = WindowAddressProps(
+                                    iconRes = desktopItem.iconResId,
+                                    path = "~/${desktopItem.itemName}",
+                                    name = desktopItem.itemName,
+                                ),
+                                isMinimised = false,
+                                isMaximised = false
+                            )
+                        )
                     }
                 )
+            }
+        }
+
+        if (isWindowOpen) {
+            WindowScaffold(
+                props = currentWindow,
+                onMinimiseClicked = {
+                    setCurrentWindow(currentWindow.copy(isMinimised = true))
+                },
+                onMaximiseClicked = {
+                    setCurrentWindow(
+                        currentWindow.copy(
+                            isMaximised = !currentWindow.isMaximised
+                        )
+                    )
+                },
+                onCloseClicked = { setWindowOpen(false) }
+            ) {
             }
         }
     }
@@ -45,6 +74,37 @@ fun Desktop(){
 
 @Preview
 @Composable
-fun DesktopPreview(){
-    Desktop()
+fun DesktopPreview() {
+    Desktop(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        desktopItemItems = listOf(
+            DesktopItemProps(
+                iconResId = R.drawable.my_computer_32x32,
+                itemName = "My Computer",
+
+                ),
+            DesktopItemProps(
+                iconResId = R.drawable.recycle_bin_32x32,
+                itemName = "Recycle Bin",
+
+                ),
+            DesktopItemProps(
+                iconResId = R.drawable.my_documents_folder_32x32,
+                itemName = "My Documents",
+
+                ),
+            DesktopItemProps(
+                iconResId = R.drawable.internet_explorer_32x32,
+                itemName = "Internet\nExplorer",
+
+                ),
+            DesktopItemProps(
+                iconResId = R.drawable.notepad_32x32,
+                itemName = "Notepad",
+
+                ),
+        )
+    )
 }
